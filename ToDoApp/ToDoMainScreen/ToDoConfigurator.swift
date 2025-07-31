@@ -12,7 +12,11 @@ protocol ToDoConfiguratorProtocol: AnyObject {
 }
 
 class ToDoConfigurator: ToDoConfiguratorProtocol {
-    func configure(whith: ToDoViewController) {
-        
+    private let toDoViewController = ToDoViewController()
+    
+    func configure(whith viewController: ToDoViewController) {
+       let presenter = ToDoPresenter(view: viewController)
+        viewController.toDoPresenter = presenter
     }
+    
 }
