@@ -11,16 +11,13 @@ protocol ToDoPresenterProtocol: AnyObject {
     func configueView()
 }
 
-
 class ToDoPresenter: ToDoPresenterProtocol {
     weak var view: ToDoViewProtocol?
     required init(view: ToDoViewProtocol) {
         self.view = view
-        
     }
     
     func configueView() {
         print("")
     }
-
 }

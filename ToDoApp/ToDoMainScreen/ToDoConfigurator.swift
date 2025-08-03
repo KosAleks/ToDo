@@ -15,7 +15,7 @@ class ToDoConfigurator: ToDoConfiguratorProtocol {
     private let toDoViewController = ToDoViewController()
     
     func configure(whith viewController: ToDoViewController) {
-       let presenter = ToDoPresenter(view: viewController)
+        let presenter = ToDoPresenter(view: viewController)
         viewController.toDoPresenter = presenter
     }
     
