@@ -17,7 +17,9 @@ final class ToDoTableViewCell: UITableViewCell {
     let statusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .black
-        button.tintColor = .clear
+        button.imageView?.contentMode = .scaleAspectFill
+        button.contentHorizontalAlignment = .center
+        button.contentVerticalAlignment = .center
         return button
     }()
     
@@ -56,7 +58,7 @@ final class ToDoTableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             statusButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            statusButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
+            statusButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
             statusButton.heightAnchor.constraint(equalToConstant: 24),
             statusButton.widthAnchor.constraint(equalToConstant: 24),
             

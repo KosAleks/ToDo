@@ -89,6 +89,9 @@
 		2310D1632E3C4F62000A31BD /* ToDoTableView */ = {
 			isa = PBXGroup;
 			children = (
+				23396A172E3B5FA40011C343 /* ToDoPresenter.swift */,
+				23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */,
+				23620C652E38DCBF006B4D60 /* ToDoViewController.swift */,
 				2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */,
 				2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */,
 			);
@@ -151,9 +154,6 @@
 			isa = PBXGroup;
 			children = (
 				2310D1632E3C4F62000A31BD /* ToDoTableView */,
-				23620C652E38DCBF006B4D60 /* ToDoViewController.swift */,
-				23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */,
-				23396A172E3B5FA40011C343 /* ToDoPresenter.swift */,
 			);
 			path = ToDoMainScreen;
 			sourceTree = "<group>";

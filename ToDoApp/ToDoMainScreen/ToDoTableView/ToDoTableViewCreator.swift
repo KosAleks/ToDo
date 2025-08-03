@@ -18,6 +18,7 @@ final class ToDoTableViewCreator: ToDoTableViewCreatorProtocol {
         let tableView = UITableView()
         tableView.isScrollEnabled = true
         tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .gray
         tableView.sectionIndexBackgroundColor = .black
         return tableView
     }()
@@ -29,8 +30,8 @@ final class ToDoTableViewCreator: ToDoTableViewCreatorProtocol {
         view.addSubview(toDoTableView)
         
         NSLayoutConstraint.activate([
-            toDoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            toDoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            toDoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toDoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             toDoTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             //пока не создан футер на экране, низ привязан к safeArea
             toDoTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
