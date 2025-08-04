@@ -16,7 +16,6 @@ final class ToDoTableViewCell: UITableViewCell {
     
     let statusButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .black
         button.imageView?.contentMode = .scaleAspectFill
         button.contentHorizontalAlignment = .center
         button.contentVerticalAlignment = .center
@@ -27,7 +26,6 @@ final class ToDoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         label.numberOfLines = 1
-        label.textColor = .black
         return label
     }()
     
@@ -35,6 +33,14 @@ final class ToDoTableViewCell: UITableViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12, weight: .regular)
         label.numberOfLines = 2
+        return label
+    }()
+    
+    let dateLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = .gray
+        label.numberOfLines = 1
         return label
     }()
     
@@ -50,8 +56,8 @@ final class ToDoTableViewCell: UITableViewCell {
     
     private func setupUI() {
         backgroundColor = .black
-        selectionStyle = .default
-        [statusButton, titleLabel, descriptionLabel].forEach{
+        selectionStyle = .none
+        [statusButton, titleLabel, descriptionLabel, dateLabel].forEach{
             $0.translatesAutoresizingMaskIntoConstraints = false
             contentView.addSubview($0)
         }
@@ -69,7 +75,11 @@ final class ToDoTableViewCell: UITableViewCell {
             descriptionLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6),
             descriptionLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
             descriptionLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            descriptionLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -34)
+            
+            dateLabel.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: 4),
+            dateLabel.leadingAnchor.constraint(equalTo: descriptionLabel.leadingAnchor),
+            dateLabel.trailingAnchor.constraint(equalTo: descriptionLabel.trailingAnchor),
+            dateLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
     
@@ -77,6 +87,7 @@ final class ToDoTableViewCell: UITableViewCell {
         titleLabel.text = title
         descriptionLabel.text = description
         isDone = done
+        dateLabel.text = "09/10/24"
         updateIcon()
         updateTextColor()
     }

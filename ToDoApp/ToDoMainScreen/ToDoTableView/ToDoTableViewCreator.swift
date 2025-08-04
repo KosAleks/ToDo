@@ -19,7 +19,7 @@ final class ToDoTableViewCreator: ToDoTableViewCreatorProtocol {
         tableView.isScrollEnabled = true
         tableView.separatorStyle = .singleLine
         tableView.separatorColor = .gray
-        tableView.sectionIndexBackgroundColor = .black
+        tableView.backgroundColor = .systemBackground
         return tableView
     }()
     
