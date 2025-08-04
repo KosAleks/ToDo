@@ -84,12 +84,20 @@ final class ToDoTableViewCell: UITableViewCell {
     }
     
     func configure(title: String, description: String, done: Bool) {
-        titleLabel.text = title
+        titleLabel.attributedText = makeAttributedText(text: title, isDone: done, font: UIFont.systemFont(ofSize: 16, weight: .semibold))
         descriptionLabel.text = description
         isDone = done
         dateLabel.text = "09/10/24"
         updateIcon()
         updateTextColor()
+    }
+    
+    private func makeAttributedText(text: String, isDone: Bool, font: UIFont) -> NSAttributedString {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: font,
+            .strikethroughStyle: isDone ? NSUnderlineStyle.single.rawValue : 0
+        ]
+        return NSAttributedString(string: text, attributes: attributes)
     }
     
     private func updateIcon() {
@@ -108,5 +116,6 @@ final class ToDoTableViewCell: UITableViewCell {
         isDone.toggle()
         updateIcon()
         updateTextColor()
+        toggleCompletion?()
     }
 }
