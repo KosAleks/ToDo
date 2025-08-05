@@ -6,14 +6,22 @@
 //
 
 import Foundation
+import CoreData
 
 protocol ToDoConfiguratorProtocol: AnyObject {
+    
     func configue(whith viewController: ToDoViewController)
 }
 
 class ToDoConfigurator: ToDoConfiguratorProtocol {
+    private let persistentContainer: NSPersistentContainer
+    
+    init(persistentContainer: NSPersistentContainer) {
+        self.persistentContainer = persistentContainer
+    }
+    
     func configue(whith viewController: ToDoViewController) {
-        let interactor = ToDoInteractor()
+        let interactor = ToDoInteractor(toDoService: TodoService(), persistentContainer: persistentContainer)
         let presenter = ToDoPresenter(view: viewController, interactor: interactor)
         viewController.toDoPresenter = presenter
         interactor.toDoPresenter = presenter

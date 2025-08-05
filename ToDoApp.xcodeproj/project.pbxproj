@@ -10,8 +10,9 @@
 		2310D1622E3C4DC2000A31BD /* ToDoTableViewCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */; };
 		2310D1652E3C4F83000A31BD /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */; };
 		23396A182E3B5FA40011C343 /* ToDoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23396A172E3B5FA40011C343 /* ToDoPresenter.swift */; };
+		234012E12E406EA300305D9B /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234012E02E406EA300305D9B /* ToDoService.swift */; };
 		235F5CAB2E3F845700834C15 /* ToDoInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F5CAA2E3F845700834C15 /* ToDoInteractor.swift */; };
-		235F5CAD2E3F885900834C15 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F5CAC2E3F885900834C15 /* Entity.swift */; };
+		235F5CAD2E3F885900834C15 /* ToDoDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F5CAC2E3F885900834C15 /* ToDoDTO.swift */; };
 		23620C622E38DCBF006B4D60 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C612E38DCBF006B4D60 /* AppDelegate.swift */; };
 		23620C642E38DCBF006B4D60 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C632E38DCBF006B4D60 /* SceneDelegate.swift */; };
 		23620C662E38DCBF006B4D60 /* ToDoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C652E38DCBF006B4D60 /* ToDoViewController.swift */; };
@@ -23,6 +24,9 @@
 		23620C862E38DCC4006B4D60 /* ToDoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C852E38DCC4006B4D60 /* ToDoAppUITests.swift */; };
 		23620C882E38DCC4006B4D60 /* ToDoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C872E38DCC4006B4D60 /* ToDoAppUITestsLaunchTests.swift */; };
 		23620C952E38DE9F006B4D60 /* ToDoConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */; };
+		2378DDB02E41D556001C462E /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDAE2E41D556001C462E /* TaskEntity+CoreDataClass.swift */; };
+		2378DDB12E41D556001C462E /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */; };
+		2378DDB42E41DAFD001C462E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDB32E41DAFD001C462E /* Task.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +50,9 @@
 		2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCreator.swift; sourceTree = "<group>"; };
 		2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
 		23396A172E3B5FA40011C343 /* ToDoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoPresenter.swift; sourceTree = "<group>"; };
+		234012E02E406EA300305D9B /* ToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
 		235F5CAA2E3F845700834C15 /* ToDoInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoInteractor.swift; sourceTree = "<group>"; };
-		235F5CAC2E3F885900834C15 /* Entity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Entity.swift; sourceTree = "<group>"; };
+		235F5CAC2E3F885900834C15 /* ToDoDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoDTO.swift; sourceTree = "<group>"; };
 		23620C5E2E38DCBF006B4D60 /* ToDoApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToDoApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23620C612E38DCBF006B4D60 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23620C632E38DCBF006B4D60 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -63,6 +68,9 @@
 		23620C852E38DCC4006B4D60 /* ToDoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAppUITests.swift; sourceTree = "<group>"; };
 		23620C872E38DCC4006B4D60 /* ToDoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoConfigurator.swift; sourceTree = "<group>"; };
+		2378DDAE2E41D556001C462E /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskEntity+CoreDataClass.swift"; path = "ToDoApp/ToDoModels/TaskEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskEntity+CoreDataProperties.swift"; path = "ToDoApp/ToDoModels/TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		2378DDB32E41DAFD001C462E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,13 +101,8 @@
 		2310D1632E3C4F62000A31BD /* ToDoTableView */ = {
 			isa = PBXGroup;
 			children = (
-				23396A172E3B5FA40011C343 /* ToDoPresenter.swift */,
-				23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */,
-				23620C652E38DCBF006B4D60 /* ToDoViewController.swift */,
 				2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */,
 				2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */,
-				235F5CAA2E3F845700834C15 /* ToDoInteractor.swift */,
-				235F5CAC2E3F885900834C15 /* Entity.swift */,
 			);
 			path = ToDoTableView;
 			sourceTree = "<group>";
@@ -127,6 +130,7 @@
 		23620C602E38DCBF006B4D60 /* ToDoApp */ = {
 			isa = PBXGroup;
 			children = (
+				2378DDB22E41D56B001C462E /* ToDoModels */,
 				23620C962E38E084006B4D60 /* ToDoMainScreen */,
 				23620C612E38DCBF006B4D60 /* AppDelegate.swift */,
 				23620C632E38DCBF006B4D60 /* SceneDelegate.swift */,
@@ -134,7 +138,6 @@
 				23620C6D2E38DCC4006B4D60 /* Assets.xcassets */,
 				23620C6F2E38DCC4006B4D60 /* LaunchScreen.storyboard */,
 				23620C722E38DCC4006B4D60 /* Info.plist */,
-				23620C6A2E38DCBF006B4D60 /* ToDoApp.xcdatamodeld */,
 			);
 			path = ToDoApp;
 			sourceTree = "<group>";
@@ -159,9 +162,26 @@
 		23620C962E38E084006B4D60 /* ToDoMainScreen */ = {
 			isa = PBXGroup;
 			children = (
+				23620C942E38DE9F006B4D60 /* ToDoConfigurator.swift */,
+				23396A172E3B5FA40011C343 /* ToDoPresenter.swift */,
+				23620C652E38DCBF006B4D60 /* ToDoViewController.swift */,
+				235F5CAA2E3F845700834C15 /* ToDoInteractor.swift */,
+				235F5CAC2E3F885900834C15 /* ToDoDTO.swift */,
+				234012E02E406EA300305D9B /* ToDoService.swift */,
 				2310D1632E3C4F62000A31BD /* ToDoTableView */,
 			);
 			path = ToDoMainScreen;
+			sourceTree = "<group>";
+		};
+		2378DDB22E41D56B001C462E /* ToDoModels */ = {
+			isa = PBXGroup;
+			children = (
+				2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */,
+				2378DDAE2E41D556001C462E /* TaskEntity+CoreDataClass.swift */,
+				23620C6A2E38DCBF006B4D60 /* ToDoApp.xcdatamodeld */,
+				2378DDB32E41DAFD001C462E /* Task.swift */,
+			);
+			path = ToDoModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,15 +315,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2378DDB12E41D556001C462E /* TaskEntity+CoreDataProperties.swift in Sources */,
 				23620C662E38DCBF006B4D60 /* ToDoViewController.swift in Sources */,
 				23620C622E38DCBF006B4D60 /* AppDelegate.swift in Sources */,
 				2310D1622E3C4DC2000A31BD /* ToDoTableViewCreator.swift in Sources */,
 				2310D1652E3C4F83000A31BD /* ToDoTableViewCell.swift in Sources */,
 				23620C642E38DCBF006B4D60 /* SceneDelegate.swift in Sources */,
+				2378DDB02E41D556001C462E /* TaskEntity+CoreDataClass.swift in Sources */,
 				23620C952E38DE9F006B4D60 /* ToDoConfigurator.swift in Sources */,
-				235F5CAD2E3F885900834C15 /* Entity.swift in Sources */,
+				235F5CAD2E3F885900834C15 /* ToDoDTO.swift in Sources */,
 				23396A182E3B5FA40011C343 /* ToDoPresenter.swift in Sources */,
+				234012E12E406EA300305D9B /* ToDoService.swift in Sources */,
 				235F5CAB2E3F845700834C15 /* ToDoInteractor.swift in Sources */,
+				2378DDB42E41DAFD001C462E /* Task.swift in Sources */,
 				23620C6C2E38DCBF006B4D60 /* ToDoApp.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

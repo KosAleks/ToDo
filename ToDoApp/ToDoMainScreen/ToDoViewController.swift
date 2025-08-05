@@ -9,20 +9,18 @@ import UIKit
 
 protocol ToDoViewProtocol: AnyObject {
     var toDoPresenter: ToDoPresenterProtocol? {get set}
-    var configurator: ToDoConfiguratorProtocol? {get set}
-    func showTask()
+    func displayTasks(_ tasks: [Task])
 }
 
 class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
     var toDoPresenter: ToDoPresenterProtocol?
-    var configurator: ToDoConfiguratorProtocol? = ToDoConfigurator()
     private let tableViewCreator = ToDoTableViewCreator()
     private var searchController = UISearchController()
+    private var tasks: [Task] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
-        configurator?.configue(whith: self)
         toDoPresenter?.configueView()
         tableViewCreator.createToDoTableView(in: self)
         tableViewCreator.toDoTableView.delegate = self
@@ -56,7 +54,8 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
             ])
     }
     
-    func showTask() {
+    func displayTasks(_ tasks: [Task]) { // Изменено на Task
+        self.tasks = tasks
         tableViewCreator.toDoTableView.reloadData()
     }
     
@@ -80,7 +79,7 @@ extension ToDoViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let task = toDoPresenter?.task(at: indexPath.row)
-        cell.configure(title: task?.title ?? "no title", description: task?.description ?? "no description", done: task?.isDone ?? false)
+        cell.configure(title: task?.description ?? "no title", description: task?.description ?? "no description", done: task?.isDone ?? false)
         
         cell.toggleCompletion = { [weak self] in
             guard let self = self else { return }

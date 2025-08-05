@@ -13,13 +13,12 @@ protocol ToDoPresenterProtocol: AnyObject {
     func task(at index: Int) -> Task
     func toggleTaskDone(at index: Int)
     func didUpdateSearchText(_ text: String)
-    func didFilterTasks()
 }
 
 class ToDoPresenter: ToDoPresenterProtocol {
     weak var view: ToDoViewProtocol?
     var toDoInteractor: ToDoInteractorProtocol
-    private var tasks: [Task] = []
+    private var filteredTasks: [Task] = []
     
     required init(view: ToDoViewProtocol, interactor: ToDoInteractorProtocol) {
         self.view = view
@@ -27,7 +26,7 @@ class ToDoPresenter: ToDoPresenterProtocol {
     }
     
     func configueView() {
-        toDoInteractor.fetchTasks()
+        toDoInteractor.fetchTodos()
     }
     
     func numberOfTasks() -> Int {
@@ -39,24 +38,24 @@ class ToDoPresenter: ToDoPresenterProtocol {
     }
     
     func toggleTaskDone(at index: Int) {
-        guard tasks.indices.contains(index) else {return}
-        var task = tasks[index]
+        guard index < toDoInteractor.filteredTasks.count else { return }
+        var task = toDoInteractor.filteredTasks[index]
         task.isDone.toggle()
+        // Обновляем задачу в интеракторе (Core Data + локальный массив)
         toDoInteractor.updateTask(task, at: index)
     }
     
     func didUpdateSearchText(_ text: String) {
         toDoInteractor.filterTasks(with: text)
     }
-    
-    func didFilterTasks() {
-        view?.showTask()
-    }
 }
 
 extension ToDoPresenter: TodoInteractorOutPutProtocol {
     func didFetchTasks(_ tasks: [Task]) {
-        self.tasks = tasks
-        view?.showTask()
+        // При обновлении данных из интерактора — обновляем вью
+        DispatchQueue.main.async { [weak self] in
+            self?.view?.displayTasks(tasks)
+        }
     }
 }
+

@@ -11,12 +11,22 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+        guard let windowScene = scene as? UIWindowScene else { return }
+        let window = UIWindow(windowScene: windowScene)
         
-        guard let _ = (scene as? UIWindowScene) else { return }
-        let navigationController = UINavigationController.init(rootViewController: ToDoViewController())
-        window? = UIWindow(windowScene: scene as! UIWindowScene)              
-        window?.rootViewController = navigationController
-        window?.makeKeyAndVisible()
+        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            fatalError("Can't get AppDelegate")
+        }
+        
+        let persistentContainer = appDelegate.persistentContainer
+        let toDoViewController = ToDoViewController()
+        let configurator = ToDoConfigurator(persistentContainer: persistentContainer)
+        configurator.configue(whith: toDoViewController)
+        
+        let navigationController = UINavigationController(rootViewController: toDoViewController)
+        window.rootViewController = navigationController
+        self.window = window
+        window.makeKeyAndVisible()
     }
     
     func sceneDidDisconnect(_ scene: UIScene) {
