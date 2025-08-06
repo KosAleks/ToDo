@@ -90,3 +90,39 @@ extension ToDoViewController: UITableViewDataSource {
     }
 }
 
+extension ToDoViewController {
+    func tableView(_ tableView: UITableView,
+                   contextMenuConfigurationForRowAt indexPath: IndexPath,
+                   point: CGPoint) -> UIContextMenuConfiguration? {
+
+        let task = tasks[indexPath.row] // или твоя модель
+        
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            let edit = UIAction(title: "Редактировать", image: UIImage(named: "editIcon")) { _ in
+                self.editTask(task: task)
+            }
+
+            let lock = UIAction(title: "Поделиться", image: UIImage(named: "shareIcon")) { _ in
+                self.shareTask(task: task)
+            }
+
+            let delete = UIAction(title: "Удалить", image: UIImage(named: "trashIcon"), attributes: .destructive) { _ in
+                self.deleteTask(task: task)
+            }
+
+            return UIMenu(title: "", children: [edit, lock, delete])
+        }
+    }
+    
+    func editTask(task: Task) {
+        print("edit")
+    }
+    
+    func shareTask(task: Task) {
+        print("lock")
+    }
+    
+    func deleteTask(task: Task) {
+        print("del")
+    }
+}
