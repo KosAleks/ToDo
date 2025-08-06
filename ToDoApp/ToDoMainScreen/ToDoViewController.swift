@@ -17,6 +17,7 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     private let tableViewCreator = ToDoTableViewCreator()
     private var searchController = UISearchController()
     private var tasks: [Task] = []
+    private var panelCreator: PanelCreator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,15 +44,19 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
-        searchController.searchBar.tintColor = .gray
-        searchController.searchBar.searchTextField.textColor = .white
+        searchController.searchBar.tintColor = .white
         searchController.searchBar.searchTextField.backgroundColor = UIColor(named: "darkGrayColor")
         searchController.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: "Search",
             attributes: [
-                .foregroundColor: UIColor.darkGray,
+                .foregroundColor: UIColor.white,
                 .font: UIFont.systemFont(ofSize: 17)
             ])
+    }
+    
+    func setPanelCreator(_ creator: PanelCreator) {
+        self.panelCreator = creator
+        panelCreator?.setupBottomPanel(with: self)
     }
     
     func displayTasks(_ tasks: [Task]) { // Изменено на Task
@@ -88,6 +93,14 @@ extension ToDoViewController: UITableViewDataSource {
         }
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        } else {
+            cell.separatorInset = .zero
+        }
+    }
 }
 
 extension ToDoViewController {
@@ -95,7 +108,7 @@ extension ToDoViewController {
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
         
-        let task = tasks[indexPath.row] // или твоя модель
+        let task = tasks[indexPath.row]
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let edit = UIAction(title: "Редактировать", image: UIImage(named: "editIcon")) { _ in
@@ -126,3 +139,4 @@ extension ToDoViewController {
         toDoPresenter?.deleteTask(task)
     }
 }
+

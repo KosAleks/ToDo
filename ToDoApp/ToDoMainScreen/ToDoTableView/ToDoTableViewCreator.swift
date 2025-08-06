@@ -33,7 +33,6 @@ final class ToDoTableViewCreator: ToDoTableViewCreatorProtocol {
             toDoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             toDoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             toDoTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            //пока не создан футер на экране, низ привязан к safeArea
             toDoTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

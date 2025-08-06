@@ -23,7 +23,11 @@ class ToDoConfigurator: ToDoConfiguratorProtocol {
     func configue(whith viewController: ToDoViewController) {
         let interactor = ToDoInteractor(toDoService: TodoService(), persistentContainer: persistentContainer)
         let presenter = ToDoPresenter(view: viewController, interactor: interactor)
+        let router = ToDoRouter()
         viewController.toDoPresenter = presenter
         interactor.toDoPresenter = presenter
+        router.viewController = viewController
+        let panelCreator = PanelCreator(toDoRouter: router, toDoViewController: viewController)
+        viewController.setPanelCreator(panelCreator)
     }
 }
