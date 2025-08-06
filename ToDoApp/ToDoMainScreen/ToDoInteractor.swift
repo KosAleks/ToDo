@@ -37,6 +37,7 @@ class ToDoInteractor: ToDoInteractorProtocol {
         loadTasksFromCoreData()
         if tasks.isEmpty {
             loadTodosFromNetwork()
+            
         } else {
             filteredTasks = tasks
             toDoPresenter?.didFetchTasks(filteredTasks)

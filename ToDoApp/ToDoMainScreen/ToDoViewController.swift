@@ -10,6 +10,7 @@ import UIKit
 protocol ToDoViewProtocol: AnyObject {
     var toDoPresenter: ToDoPresenterProtocol? {get set}
     func displayTasks(_ tasks: [Task])
+    func updateTaskCount() 
 }
 
 class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
@@ -59,7 +60,7 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         panelCreator?.setupBottomPanel(with: self)
     }
     
-    func displayTasks(_ tasks: [Task]) { // Изменено на Task
+    func displayTasks(_ tasks: [Task]) { 
         self.tasks = tasks
         tableViewCreator.toDoTableView.reloadData()
     }
@@ -140,3 +141,9 @@ extension ToDoViewController {
     }
 }
 
+extension ToDoViewController {
+    func updateTaskCount() {
+        let count = toDoPresenter?.numberOfTasks() ?? 0
+        panelCreator?.todoCountLabel.text = "\(count) задач" 
+    }
+}

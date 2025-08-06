@@ -8,10 +8,6 @@
 import Foundation
 import UIKit
 
-protocol PanelCreatorProtocol: AnyObject {
-    func setupBottomPanel(with viewController: UIViewController)
-}
-
 final class PanelCreator {
     weak var toDoViewController: UIViewController?
     var toDoRouter: ToDoRouterProtocol
@@ -21,7 +17,7 @@ final class PanelCreator {
         self.toDoViewController = toDoViewController
     }
     
-    let bottomPannel: UIView = {
+    let bottomPanel: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "darkGrayColor")
         return view
@@ -32,7 +28,6 @@ final class PanelCreator {
         label.font = UIFont.systemFont(ofSize: 11, weight: .regular)
         label.textColor = .white
         label.numberOfLines = 1
-        label.text = "30 Задач"
         return label
     }()
     
@@ -49,33 +44,38 @@ final class PanelCreator {
         setupconstraints(with: viewController)
         addNewTodoButton.setImage(UIImage(named: "AddToDo"), for: .normal)
         addNewTodoButton.addTarget(self, action: #selector(addNewTodo), for: .touchUpInside)
+        updateTaskCountLabel()
     }
     
     private func setupconstraints(with viewController: UIViewController) {
-        [bottomPannel, todoCountLabel, addNewTodoButton].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
-        [todoCountLabel, addNewTodoButton].forEach { bottomPannel.addSubview($0) }
-        viewController.view.addSubview(bottomPannel)
+        [bottomPanel, todoCountLabel, addNewTodoButton].forEach { $0.translatesAutoresizingMaskIntoConstraints = false }
+        [todoCountLabel, addNewTodoButton].forEach { bottomPanel.addSubview($0) }
+        viewController.view.addSubview(bottomPanel)
         
         NSLayoutConstraint.activate([
-            todoCountLabel.centerXAnchor.constraint(equalTo: bottomPannel.centerXAnchor),
-            todoCountLabel.topAnchor.constraint(equalTo: bottomPannel.topAnchor, constant:  20.5),
+            todoCountLabel.centerXAnchor.constraint(equalTo: bottomPanel.centerXAnchor),
+            todoCountLabel.topAnchor.constraint(equalTo: bottomPanel.topAnchor, constant:  20.5),
             todoCountLabel.heightAnchor.constraint(equalToConstant: 13),
             
             
-            addNewTodoButton.trailingAnchor.constraint(equalTo: bottomPannel.trailingAnchor),
-            addNewTodoButton.topAnchor.constraint(equalTo: bottomPannel.topAnchor, constant: 5),
+            addNewTodoButton.trailingAnchor.constraint(equalTo: bottomPanel.trailingAnchor),
+            addNewTodoButton.topAnchor.constraint(equalTo: bottomPanel.topAnchor, constant: 5),
             addNewTodoButton.heightAnchor.constraint(equalToConstant: 44),
             addNewTodoButton.widthAnchor.constraint(equalToConstant: 68),
             
-            bottomPannel.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
-            bottomPannel.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
-            bottomPannel.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
-            bottomPannel.heightAnchor.constraint(equalToConstant: 83)
+            bottomPanel.bottomAnchor.constraint(equalTo: viewController.view.bottomAnchor),
+            bottomPanel.trailingAnchor.constraint(equalTo: viewController.view.trailingAnchor),
+            bottomPanel.leadingAnchor.constraint(equalTo: viewController.view.leadingAnchor),
+            bottomPanel.heightAnchor.constraint(equalToConstant: 83)
         ])
     }
     
     @objc func addNewTodo() {
         guard let toDoViewController = toDoViewController else { return }
         toDoRouter.showNewScreen(from: toDoViewController)
+    }
+    
+    func updateTaskCountLabel() {
+        (toDoViewController as? ToDoViewController)?.updateTaskCount()
     }
 }
