@@ -112,7 +112,6 @@ final class ToDoTableViewCell: UITableViewCell {
     }
     
     @objc func toggleStatus() {
-        //здесь переключаем картинку, меняем цвет шрифта в лейблах
         isDone.toggle()
         updateIcon()
         updateTextColor()

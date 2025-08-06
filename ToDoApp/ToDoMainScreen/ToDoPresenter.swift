@@ -13,6 +13,7 @@ protocol ToDoPresenterProtocol: AnyObject {
     func task(at index: Int) -> Task
     func toggleTaskDone(at index: Int)
     func didUpdateSearchText(_ text: String)
+    func deleteTask(_ task: Task)
 }
 
 class ToDoPresenter: ToDoPresenterProtocol {
@@ -41,21 +42,26 @@ class ToDoPresenter: ToDoPresenterProtocol {
         guard index < toDoInteractor.filteredTasks.count else { return }
         var task = toDoInteractor.filteredTasks[index]
         task.isDone.toggle()
-        // Обновляем задачу в интеракторе (Core Data + локальный массив)
         toDoInteractor.updateTask(task, at: index)
     }
     
     func didUpdateSearchText(_ text: String) {
         toDoInteractor.filterTasks(with: text)
     }
+    
+    func deleteTask(_ task: Task) {
+        toDoInteractor.deleteTask(task: task)
+    }
 }
 
 extension ToDoPresenter: TodoInteractorOutPutProtocol {
     func didFetchTasks(_ tasks: [Task]) {
-        // При обновлении данных из интерактора — обновляем вью
         DispatchQueue.main.async { [weak self] in
             self?.view?.displayTasks(tasks)
         }
     }
 }
+
+
+
 

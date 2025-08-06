@@ -11,7 +11,8 @@ import CoreData
 protocol ToDoInteractorProtocol: AnyObject {
     func fetchTodos()
     func updateTask(_ task: Task, at index: Int)
-    var filteredTasks: [Task] {get}
+    func deleteTask(task: Task)
+    var filteredTasks: [Task] { get }
     func filterTasks(with query: String)
 }
 
@@ -24,7 +25,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
     var toDoService: TodoServiceProtocol
     let persistentContainer: NSPersistentContainer
     
-    // Все задачи из Core Data или сервиса, по ним фильтруем
     private var tasks: [Task] = []
     var filteredTasks: [Task] = []
     
@@ -34,10 +34,8 @@ class ToDoInteractor: ToDoInteractorProtocol {
     }
     
     func fetchTodos() {
-        // Сначала пытаемся загрузить из Core Data
         loadTasksFromCoreData()
         if tasks.isEmpty {
-            // Если пусто — загружаем из сети
             loadTodosFromNetwork()
         } else {
             filteredTasks = tasks
@@ -92,12 +90,11 @@ class ToDoInteractor: ToDoInteractorProtocol {
             taskEntity.id = Int32(todo.id)
             taskEntity.todo = todo.todo
             taskEntity.completed = todo.completed
-            taskEntity.createdAt = Date() // или можно не задавать, если нет данных
+            taskEntity.createdAt = Date()
         }
         
         do {
             try context.save()
-            // Обновляем локальный массив tasks
             loadTasksFromCoreData()
             toDoPresenter?.didFetchTasks(filteredTasks)
         } catch {
@@ -108,15 +105,9 @@ class ToDoInteractor: ToDoInteractorProtocol {
     
     func updateTask(_ task: Task, at index: Int) {
         guard tasks.indices.contains(index) else { return }
-        
-        // Обновляем локальный массив
         tasks[index] = task
         filteredTasks = tasks
-        
-        // Обновляем в Core Data
         updateTaskInCoreData(task)
-        
-        // Уведомляем презентер
         toDoPresenter?.didFetchTasks(filteredTasks)
     }
     
@@ -136,6 +127,25 @@ class ToDoInteractor: ToDoInteractorProtocol {
         } catch {
             print("Ошибка обновления задачи в Core Data: \(error)")
         }
+    }
+    
+    func deleteTask(task: Task) {
+        filteredTasks.removeAll { $0.id == task.id }
+        tasks.removeAll { $0.id == task.id }
+        
+        let context = persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+        fetchRequest.predicate = NSPredicate(format: "id == %d", task.id)
+        
+        do {
+            if let entityToDelete = try context.fetch(fetchRequest).first {
+                context.delete(entityToDelete)
+                try context.save()
+            }
+        } catch {
+            print("Ошибка при удалении задачи из Core Data: \(error)")
+        }
+        toDoPresenter?.didFetchTasks(filteredTasks)
     }
 }
 
