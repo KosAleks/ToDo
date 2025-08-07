@@ -14,16 +14,19 @@ protocol ToDoPresenterProtocol: AnyObject {
     func toggleTaskDone(at index: Int)
     func didUpdateSearchText(_ text: String)
     func deleteTask(_ task: Task)
+    var toDoRouter: ToDoRouterProtocol {get}
 }
 
 class ToDoPresenter: ToDoPresenterProtocol {
     weak var view: ToDoViewProtocol?
     var toDoInteractor: ToDoInteractorProtocol
     private var filteredTasks: [Task] = []
+    var toDoRouter: ToDoRouterProtocol
     
-    required init(view: ToDoViewProtocol, interactor: ToDoInteractorProtocol) {
+    required init(view: ToDoViewProtocol, interactor: ToDoInteractorProtocol, router: ToDoRouterProtocol) {
         self.view = view
         self.toDoInteractor = interactor
+        self.toDoRouter = router
     }
     
     func configueView() {

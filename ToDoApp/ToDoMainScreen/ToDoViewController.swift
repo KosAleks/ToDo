@@ -10,33 +10,89 @@ import UIKit
 protocol ToDoViewProtocol: AnyObject {
     var toDoPresenter: ToDoPresenterProtocol? {get set}
     func displayTasks(_ tasks: [Task])
-    func updateTaskCount() 
+    func updateTaskCount()
 }
 
 class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
     var toDoPresenter: ToDoPresenterProtocol?
-    private let tableViewCreator = ToDoTableViewCreator()
     private var searchController = UISearchController()
     private var tasks: [Task] = []
-    private var panelCreator: PanelCreator?
+    
+    let taskCountLabel: UILabel = {
+        let taskCountLabel = UILabel()
+        taskCountLabel.font = UIFont.systemFont(ofSize: 11, weight: .regular)
+        taskCountLabel.textColor = .white
+        taskCountLabel.numberOfLines = 1
+        taskCountLabel.sizeThatFits(CGSize(width: 44.0, height: 13.0))
+        return taskCountLabel
+    }()
+    
+    let toDoTableView: UITableView = {
+        let tableView = UITableView()
+        tableView.isScrollEnabled = true
+        tableView.separatorStyle = .singleLine
+        tableView.separatorColor = .gray
+        tableView.backgroundColor = .black
+        return tableView
+    }()
+    
+    let addNewTodoButton: UIButton = {
+        let button = UIButton()
+        button.imageView?.contentMode = .scaleAspectFill
+        button.contentHorizontalAlignment = .center
+        button.contentVerticalAlignment = .center
+        button.setImage(UIImage(named: "AddToDo"), for: .normal)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
         toDoPresenter?.configueView()
-        tableViewCreator.createToDoTableView(in: self)
-        tableViewCreator.toDoTableView.delegate = self
-        tableViewCreator.toDoTableView.dataSource = self
-        tableViewCreator.toDoTableView.register(ToDoTableViewCell.self, forCellReuseIdentifier: ToDoTableViewCell.reuseIdentifier)
         setupNavigation()
+        createToDoTableView()
+        toDoTableView.delegate = self
+        toDoTableView.dataSource = self
+        toDoTableView.register(ToDoTableViewCell.self, forCellReuseIdentifier: ToDoTableViewCell.reuseIdentifier)
         setupSearchController()
+        setupToolbar()
+        addNewTodoButton.addTarget(self, action: #selector(addNewTodo), for: .touchUpInside)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.setToolbarHidden(false, animated: false)
+    }
+    
+    private func setupToolbar() {
+        let centerLabelItem = UIBarButtonItem(customView: taskCountLabel)
+        let buttonItem = UIBarButtonItem(customView: addNewTodoButton)
+        let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+        toolbarItems = [flexibleSpace, centerLabelItem, flexibleSpace, buttonItem]
+        if let toolbar = navigationController?.toolbar {
+            toolbar.barTintColor = UIColor(named: "darkGrayColor")
+            toolbar.tintColor = .white
+            toolbar.isTranslucent = false
+        }
+        updateTaskCount()
     }
     
     private func setupNavigation() {
-        self.navigationItem.title = "Задачи"
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationController?.navigationBar.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        self.navigationItem.hidesSearchBarWhenScrolling = false
+        title = "Задачи"
+        navigationItem.largeTitleDisplayMode = .always
+        navigationItem.hidesSearchBarWhenScrolling = false
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .black
+        appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        appearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        
+        guard let navBar = navigationController?.navigationBar else { return }
+        navBar.standardAppearance = appearance
+        navBar.scrollEdgeAppearance = appearance
+        navBar.compactAppearance = appearance
+        navBar.prefersLargeTitles = true
+        navBar.isTranslucent = false
     }
     
     private func setupSearchController() {
@@ -53,16 +109,23 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
                 .foregroundColor: UIColor.white,
                 .font: UIFont.systemFont(ofSize: 17)
             ])
+        searchController.searchBar.backgroundColor = .black
     }
     
-    func setPanelCreator(_ creator: PanelCreator) {
-        self.panelCreator = creator
-        panelCreator?.setupBottomPanel(with: self)
+    func createToDoTableView() {
+        toDoTableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(toDoTableView)
+        NSLayoutConstraint.activate([
+            toDoTableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            toDoTableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            toDoTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            toDoTableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
     }
     
-    func displayTasks(_ tasks: [Task]) { 
+    func displayTasks(_ tasks: [Task]) {
         self.tasks = tasks
-        tableViewCreator.toDoTableView.reloadData()
+        toDoTableView.reloadData()
     }
     
     func updateSearchResults(for searchController: UISearchController) {
@@ -72,6 +135,10 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     
     var isFiltering: Bool {
         searchController.isActive && !(searchController.searchBar.text?.isEmpty ?? true)
+    }
+    
+    @objc private func addNewTodo() {
+        toDoPresenter?.toDoRouter.showNewScreen(from: self)
     }
 }
 
@@ -108,22 +175,17 @@ extension ToDoViewController {
     func tableView(_ tableView: UITableView,
                    contextMenuConfigurationForRowAt indexPath: IndexPath,
                    point: CGPoint) -> UIContextMenuConfiguration? {
-        
         let task = tasks[indexPath.row]
-        
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
             let edit = UIAction(title: "Редактировать", image: UIImage(named: "editIcon")) { _ in
                 self.editTask(task: task)
             }
-            
             let lock = UIAction(title: "Поделиться", image: UIImage(named: "shareIcon")) { _ in
                 self.shareTask(task: task)
             }
-            
             let delete = UIAction(title: "Удалить", image: UIImage(named: "trashIcon"), attributes: .destructive) { _ in
                 self.deleteTask(task: task)
             }
-            
             return UIMenu(title: "", children: [edit, lock, delete])
         }
     }
@@ -138,12 +200,13 @@ extension ToDoViewController {
     
     func deleteTask(task: Task) {
         toDoPresenter?.deleteTask(task)
+        updateTaskCount()
     }
 }
 
 extension ToDoViewController {
     func updateTaskCount() {
         let count = toDoPresenter?.numberOfTasks() ?? 0
-        panelCreator?.todoCountLabel.text = "\(count) задач" 
+        taskCountLabel.text = "\(count) Задач"
     }
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2310D1622E3C4DC2000A31BD /* ToDoTableViewCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */; };
 		2310D1652E3C4F83000A31BD /* ToDoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */; };
 		23396A182E3B5FA40011C343 /* ToDoPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23396A172E3B5FA40011C343 /* ToDoPresenter.swift */; };
 		234012E12E406EA300305D9B /* ToDoService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 234012E02E406EA300305D9B /* ToDoService.swift */; };
@@ -27,7 +26,6 @@
 		2378DDB02E41D556001C462E /* TaskEntity+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDAE2E41D556001C462E /* TaskEntity+CoreDataClass.swift */; };
 		2378DDB12E41D556001C462E /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */; };
 		2378DDB42E41DAFD001C462E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDB32E41DAFD001C462E /* Task.swift */; };
-		2378DDBA2E4371B6001C462E /* PanelCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDB92E4371B6001C462E /* PanelCreator.swift */; };
 		2378DDBD2E437FA0001C462E /* ToDoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDBC2E437FA0001C462E /* ToDoRouter.swift */; };
 		2378DDC02E4380AE001C462E /* CreateNewTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDBF2E4380AE001C462E /* CreateNewTaskViewController.swift */; };
 /* End PBXBuildFile section */
@@ -50,7 +48,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCreator.swift; sourceTree = "<group>"; };
 		2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoTableViewCell.swift; sourceTree = "<group>"; };
 		23396A172E3B5FA40011C343 /* ToDoPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoPresenter.swift; sourceTree = "<group>"; };
 		234012E02E406EA300305D9B /* ToDoService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoService.swift; sourceTree = "<group>"; };
@@ -74,7 +71,6 @@
 		2378DDAE2E41D556001C462E /* TaskEntity+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskEntity+CoreDataClass.swift"; path = "ToDoApp/ToDoModels/TaskEntity+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
 		2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskEntity+CoreDataProperties.swift"; path = "ToDoApp/ToDoModels/TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		2378DDB32E41DAFD001C462E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		2378DDB92E4371B6001C462E /* PanelCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PanelCreator.swift; sourceTree = "<group>"; };
 		2378DDBC2E437FA0001C462E /* ToDoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRouter.swift; sourceTree = "<group>"; };
 		2378DDBF2E4380AE001C462E /* CreateNewTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewTaskViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -107,7 +103,6 @@
 		2310D1632E3C4F62000A31BD /* ToDoTableView */ = {
 			isa = PBXGroup;
 			children = (
-				2310D1612E3C4DC2000A31BD /* ToDoTableViewCreator.swift */,
 				2310D1642E3C4F83000A31BD /* ToDoTableViewCell.swift */,
 			);
 			path = ToDoTableView;
@@ -138,7 +133,6 @@
 			children = (
 				23620C962E38E084006B4D60 /* ToDoMainScreen */,
 				2378DDBE2E438048001C462E /* CreateNewTaskScreen */,
-				2378DDBB2E4373F4001C462E /* BottomCreator */,
 				2378DDB22E41D56B001C462E /* ToDoModels */,
 				23620C612E38DCBF006B4D60 /* AppDelegate.swift */,
 				23620C632E38DCBF006B4D60 /* SceneDelegate.swift */,
@@ -175,9 +169,9 @@
 				23620C652E38DCBF006B4D60 /* ToDoViewController.swift */,
 				235F5CAA2E3F845700834C15 /* ToDoInteractor.swift */,
 				235F5CAC2E3F885900834C15 /* ToDoDTO.swift */,
+				2378DDBC2E437FA0001C462E /* ToDoRouter.swift */,
 				234012E02E406EA300305D9B /* ToDoService.swift */,
 				2310D1632E3C4F62000A31BD /* ToDoTableView */,
-				2378DDBC2E437FA0001C462E /* ToDoRouter.swift */,
 			);
 			path = ToDoMainScreen;
 			sourceTree = "<group>";
@@ -191,14 +185,6 @@
 				2378DDB32E41DAFD001C462E /* Task.swift */,
 			);
 			path = ToDoModels;
-			sourceTree = "<group>";
-		};
-		2378DDBB2E4373F4001C462E /* BottomCreator */ = {
-			isa = PBXGroup;
-			children = (
-				2378DDB92E4371B6001C462E /* PanelCreator.swift */,
-			);
-			path = BottomCreator;
 			sourceTree = "<group>";
 		};
 		2378DDBE2E438048001C462E /* CreateNewTaskScreen */ = {
@@ -344,10 +330,8 @@
 				23620C662E38DCBF006B4D60 /* ToDoViewController.swift in Sources */,
 				2378DDBD2E437FA0001C462E /* ToDoRouter.swift in Sources */,
 				23620C622E38DCBF006B4D60 /* AppDelegate.swift in Sources */,
-				2310D1622E3C4DC2000A31BD /* ToDoTableViewCreator.swift in Sources */,
 				2310D1652E3C4F83000A31BD /* ToDoTableViewCell.swift in Sources */,
 				23620C642E38DCBF006B4D60 /* SceneDelegate.swift in Sources */,
-				2378DDBA2E4371B6001C462E /* PanelCreator.swift in Sources */,
 				2378DDB02E41D556001C462E /* TaskEntity+CoreDataClass.swift in Sources */,
 				23620C952E38DE9F006B4D60 /* ToDoConfigurator.swift in Sources */,
 				235F5CAD2E3F885900834C15 /* ToDoDTO.swift in Sources */,

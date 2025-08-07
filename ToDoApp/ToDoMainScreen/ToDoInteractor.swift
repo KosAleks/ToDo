@@ -24,7 +24,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
     weak var toDoPresenter: TodoInteractorOutPutProtocol?
     var toDoService: TodoServiceProtocol
     let persistentContainer: NSPersistentContainer
-    
     private var tasks: [Task] = []
     var filteredTasks: [Task] = []
     
@@ -37,7 +36,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
         loadTasksFromCoreData()
         if tasks.isEmpty {
             loadTodosFromNetwork()
-            
         } else {
             filteredTasks = tasks
             toDoPresenter?.didFetchTasks(filteredTasks)
@@ -58,7 +56,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
     private func loadTasksFromCoreData() {
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
-        
         do {
             let entities = try context.fetch(fetchRequest)
             tasks = entities.map { Task(from: $0) }
@@ -93,7 +90,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
             taskEntity.completed = todo.completed
             taskEntity.createdAt = Date()
         }
-        
         do {
             try context.save()
             loadTasksFromCoreData()
@@ -133,11 +129,9 @@ class ToDoInteractor: ToDoInteractorProtocol {
     func deleteTask(task: Task) {
         filteredTasks.removeAll { $0.id == task.id }
         tasks.removeAll { $0.id == task.id }
-        
         let context = persistentContainer.viewContext
         let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
         fetchRequest.predicate = NSPredicate(format: "id == %d", task.id)
-        
         do {
             if let entityToDelete = try context.fetch(fetchRequest).first {
                 context.delete(entityToDelete)
