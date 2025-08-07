@@ -144,3 +144,22 @@ class ToDoInteractor: ToDoInteractorProtocol {
     }
 }
 
+extension ToDoInteractor {
+    func addNewTask(_ task: Task) {
+        tasks.insert(task, at: 0)
+        filteredTasks = tasks
+        let context = persistentContainer.viewContext
+        let entity = TaskEntity(context: context)
+        entity.id = Int32(task.id)
+        entity.todo = task.description
+        entity.completed = task.isDone
+        entity.createdAt = task.createdAt
+        do {
+            try context.save()
+            toDoPresenter?.didFetchTasks(filteredTasks)
+        } catch {
+            print("Ошибка при добавлении задачи в Core Data: \(error)")
+        }
+    }
+
+}

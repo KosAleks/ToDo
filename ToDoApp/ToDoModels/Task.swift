@@ -13,6 +13,13 @@ struct Task {
     var isDone: Bool
     let createdAt: Date?
     
+    init(id: Int, description: String?, isDone: Bool, createdAt: Date?) {
+        self.id = id
+        self.description = description
+        self.isDone = isDone
+        self.createdAt = createdAt
+    }
+    
     init(from dto: TodoDTO) {
         self.id = dto.id
         self.description = dto.todo

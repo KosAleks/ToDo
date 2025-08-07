@@ -87,7 +87,7 @@ final class ToDoTableViewCell: UITableViewCell {
         titleLabel.attributedText = makeAttributedText(text: title, isDone: done, font: UIFont.systemFont(ofSize: 16, weight: .semibold))
         descriptionLabel.text = description
         isDone = done
-        dateLabel.text = "09/10/24"
+        dateLabel.text = getTodayDateString()
         updateIcon()
         updateTextColor()
     }

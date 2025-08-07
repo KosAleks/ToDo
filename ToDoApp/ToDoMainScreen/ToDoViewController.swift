@@ -57,6 +57,7 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         setupSearchController()
         setupToolbar()
         addNewTodoButton.addTarget(self, action: #selector(addNewTodo), for: .touchUpInside)
+        navigationItem.backButtonTitle = "Назад"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -93,6 +94,7 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         navBar.compactAppearance = appearance
         navBar.prefersLargeTitles = true
         navBar.isTranslucent = false
+        navBar.tintColor = .systemYellow
     }
     
     private func setupSearchController() {
@@ -138,7 +140,7 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     }
     
     @objc private func addNewTodo() {
-        toDoPresenter?.toDoRouter.showNewScreen(from: self)
+        toDoPresenter?.toDoRouter.showCreateNewTaskScreen(from: self)
     }
 }
 
@@ -191,7 +193,7 @@ extension ToDoViewController {
     }
     
     func editTask(task: Task) {
-        print("edit")
+        toDoPresenter?.toDoRouter.showEditTaskScreen(from: self, task: task)
     }
     
     func shareTask(task: Task) {
@@ -207,6 +209,7 @@ extension ToDoViewController {
 extension ToDoViewController {
     func updateTaskCount() {
         let count = toDoPresenter?.numberOfTasks() ?? 0
-        taskCountLabel.text = "\(count) Задач"
+        let countString = getTaskWord(for: count)
+        taskCountLabel.text = getTaskWord(for: count)
     }
 }
