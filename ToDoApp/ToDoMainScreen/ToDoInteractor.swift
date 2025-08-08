@@ -24,7 +24,7 @@ class ToDoInteractor: ToDoInteractorProtocol {
     weak var toDoPresenter: TodoInteractorOutPutProtocol?
     var toDoService: TodoServiceProtocol
     let persistentContainer: NSPersistentContainer
-    private var tasks: [Task] = []
+    var tasks: [Task] = []
     var filteredTasks: [Task] = []
     
     init(toDoService: TodoServiceProtocol, persistentContainer: NSPersistentContainer) {

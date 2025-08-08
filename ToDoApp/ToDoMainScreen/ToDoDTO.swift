@@ -7,8 +7,6 @@
 
 import Foundation
 
-//это модель для парсинга {"todos":[{"id":1,"todo":"Do something nice for someone you care about","completed":false,"userId":152}
-
 struct TodoResponse: Codable {
     let todos: [TodoDTO]
 }

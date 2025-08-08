@@ -20,7 +20,7 @@ extension TaskEntity {
     @NSManaged public var todo: String?
     @NSManaged public var completed: Bool
     @NSManaged public var createdAt: Date?
-    
+    @NSManaged public var title: String?
 }
 
 extension TaskEntity : Identifiable {

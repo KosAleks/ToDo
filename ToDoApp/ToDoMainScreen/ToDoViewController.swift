@@ -154,7 +154,7 @@ extension ToDoViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let task = toDoPresenter?.task(at: indexPath.row)
-        cell.configure(title: task?.description ?? "no title", description: task?.description ?? "no description", done: task?.isDone ?? false)
+        cell.configure(title: task?.title ?? task?.description, description: task?.description ?? "no description", done: task?.isDone ?? false)
         
         cell.toggleCompletion = { [weak self] in
             guard let self = self else { return }
@@ -192,8 +192,16 @@ extension ToDoViewController {
         }
     }
     
+    func reloadTasks() {
+        toDoPresenter?.configueView()
+        displayTasks(tasks)
+        updateTaskCount()
+    }
+    
     func editTask(task: Task) {
-        toDoPresenter?.toDoRouter.showEditTaskScreen(from: self, task: task)
+        toDoPresenter?.toDoRouter.showEditTaskScreen(from: self, task: task) { [weak self] in
+            self?.reloadTasks()
+        }
     }
     
     func shareTask(task: Task) {
@@ -209,7 +217,6 @@ extension ToDoViewController {
 extension ToDoViewController {
     func updateTaskCount() {
         let count = toDoPresenter?.numberOfTasks() ?? 0
-        let countString = getTaskWord(for: count)
         taskCountLabel.text = getTaskWord(for: count)
     }
 }

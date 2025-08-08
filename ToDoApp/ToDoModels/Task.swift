@@ -12,12 +12,14 @@ struct Task {
     var description: String?
     var isDone: Bool
     let createdAt: Date?
+    var title: String?
     
-    init(id: Int, description: String?, isDone: Bool, createdAt: Date?) {
+    init(id: Int, description: String?, isDone: Bool, createdAt: Date?, title: String?) {
         self.id = id
         self.description = description
         self.isDone = isDone
         self.createdAt = createdAt
+        self.title = title
     }
     
     init(from dto: TodoDTO) {
@@ -25,6 +27,7 @@ struct Task {
         self.description = dto.todo
         self.isDone = dto.completed
         self.createdAt = nil
+        self.title = nil
     }
     
     init(from entity: TaskEntity) {
@@ -32,5 +35,6 @@ struct Task {
         self.description = entity.todo
         self.isDone = entity.completed
         self.createdAt = entity.createdAt
+        self.title = entity.title
     }
 }

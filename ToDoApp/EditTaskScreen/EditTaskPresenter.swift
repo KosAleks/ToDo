@@ -9,28 +9,45 @@ import Foundation
 import UIKit
 
 protocol EditTaskPresenterProtocol: AnyObject {
-    func viewDidLoad()
-    func saveTask(title: String, description: String, date: Date)
+   func saveTaskChanges(title: String?, id: Int32, todo: String?, date: Date?, completion: @escaping () -> Void)
+    
 }
 
 final class EditTaskPresenter: EditTaskPresenterProtocol {
-//    weak var view: EditTaskViewProtocol?
-//    private let task: Task
-//    private let interactor: EditTaskInteractorProtocol
     
-//    init(view: EditTaskViewProtocol, task: Task, interactor: EditTaskInteractorProtocol) {
-//        self.view = view
-//        self.task = task
-//        self.interactor = interactor
-//    }
-//    
-    func viewDidLoad() {
-        //    TODO: func to showData
+    
+    private weak var view: EditTaskViewProtocol?
+    private let interactor: EditTaskInteractorProtocol
+    
+    init(view: EditTaskViewProtocol, interactor: EditTaskInteractorProtocol) {
+        self.view = view
+        self.interactor = interactor
     }
     
-    func saveTask(title: String, description: String, date: Date) {
-        
-        print("")
-        
-    }
+    func saveTaskChanges(
+        title: String?,
+        id: Int32,
+        todo: String?,
+        date: Date?,
+        completion: @escaping () -> Void
+    ) {
+        guard let title = title, !title.isEmpty else {
+            // view?.showError("Заголовок не может быть пустым")
+            return
+        }
+
+        guard let todo = todo, !todo.isEmpty else {
+            // view?.showError("Описание не может быть пустым")
+            return
+        }
+
+        interactor.saveTask(
+            title: title,
+            id: id,
+            todo: todo,
+            date: date,
+            completion: completion
+        )
+    }   
 }
+

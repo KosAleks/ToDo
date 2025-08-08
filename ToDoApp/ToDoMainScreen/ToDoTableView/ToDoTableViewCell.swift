@@ -83,8 +83,9 @@ final class ToDoTableViewCell: UITableViewCell {
         ])
     }
     
-    func configure(title: String, description: String, done: Bool) {
-        titleLabel.attributedText = makeAttributedText(text: title, isDone: done, font: UIFont.systemFont(ofSize: 16, weight: .semibold))
+    func configure(title: String?, description: String, done: Bool) {
+        titleLabel.text = title ?? description
+//        titleLabel.attributedText = makeAttributedText(text: title, isDone: done, font: UIFont.systemFont(ofSize: 16, weight: .semibold))
         descriptionLabel.text = description
         isDone = done
         dateLabel.text = getTodayDateString()
