@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import ProgressHUD
 
 protocol ToDoPresenterProtocol: AnyObject {
     func configueView()
@@ -30,6 +31,7 @@ class ToDoPresenter: ToDoPresenterProtocol {
     }
     
     func configueView() {
+        UIBlockingProgressHUD.show()
         toDoInteractor.fetchTodos()
     }
     
@@ -60,7 +62,9 @@ class ToDoPresenter: ToDoPresenterProtocol {
 extension ToDoPresenter: TodoInteractorOutPutProtocol {
     func didFetchTasks(_ tasks: [Task]) {
         DispatchQueue.main.async { [weak self] in
+            UIBlockingProgressHUD.dismiss()
             self?.view?.displayTasks(tasks)
+            self?.view?.updateTaskCount()
         }
     }
 }

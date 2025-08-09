@@ -10,12 +10,12 @@ import CoreData
 
 protocol EditTaskInteractorProtocol: AnyObject {
     func saveTask(title: String?, id: Int32, todo: String?, date: Date?, completion: @escaping () -> Void
-        )
+    )
 }
 
 final class EditTaskInteractor: EditTaskInteractorProtocol {
     private let context: NSManagedObjectContext
-
+    
     init(context: NSManagedObjectContext) {
         self.context = context
     }
@@ -28,7 +28,7 @@ final class EditTaskInteractor: EditTaskInteractorProtocol {
                 task.title = title
                 task.todo = todo
                 task.createdAt = date
-
+                
                 try context.save()
                 print("Task updated")
             } else {
@@ -41,9 +41,9 @@ final class EditTaskInteractor: EditTaskInteractorProtocol {
             completion()
         }
     }
-    }
-    
-    
+}
 
-   
+
+
+
 

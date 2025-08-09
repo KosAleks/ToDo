@@ -11,7 +11,6 @@ protocol TodoServiceProtocol {
     func fetchTodos(completion: @escaping (Result<[TodoDTO], Error>) -> Void)
 }
 
-
 final class TodoService: TodoServiceProtocol {
     let toDoUrlString: String = "https://dummyjson.com/todos"
     func fetchTodos(completion: @escaping (Result<[TodoDTO], Error>) -> Void) {

@@ -17,13 +17,15 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     var toDoPresenter: ToDoPresenterProtocol?
     private var searchController = UISearchController()
     private var tasks: [Task] = []
+    private var progressView: UIProgressView!
+    private var progressTimer: Timer?
+    private var currentProgress: Float = 0
     
     let taskCountLabel: UILabel = {
         let taskCountLabel = UILabel()
         taskCountLabel.font = UIFont.systemFont(ofSize: 11, weight: .regular)
         taskCountLabel.textColor = .white
         taskCountLabel.numberOfLines = 1
-        taskCountLabel.sizeThatFits(CGSize(width: 44.0, height: 13.0))
         return taskCountLabel
     }()
     
@@ -66,6 +68,8 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     }
     
     private func setupToolbar() {
+        taskCountLabel.frame = CGRect(x: 0, y: 0, width: 100, height: 13)
+        taskCountLabel.textAlignment = .center
         let centerLabelItem = UIBarButtonItem(customView: taskCountLabel)
         let buttonItem = UIBarButtonItem(customView: addNewTodoButton)
         let flexibleSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
@@ -220,3 +224,4 @@ extension ToDoViewController {
         taskCountLabel.text = getTaskWord(for: count)
     }
 }
+
