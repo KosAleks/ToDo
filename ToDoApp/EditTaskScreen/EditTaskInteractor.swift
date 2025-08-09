@@ -27,7 +27,7 @@ final class EditTaskInteractor: EditTaskInteractorProtocol {
             if let task = try context.fetch(request).first {
                 task.title = title
                 task.todo = todo
-                task.createdAt = date
+                task.createdAt = date 
                 
                 try context.save()
                 print("Task updated")

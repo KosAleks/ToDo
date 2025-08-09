@@ -158,7 +158,11 @@ extension ToDoViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         let task = toDoPresenter?.task(at: indexPath.row)
-        cell.configure(title: task?.title ?? task?.description, description: task?.description ?? "no description", done: task?.isDone ?? false)
+        let dateToday = getTodayDateString()
+        guard let date = makeDateFromString(from: dateToday) else {
+            return cell
+        }
+        cell.configure(title: task?.title ?? task?.description, description: task?.description ?? "no description", done: task?.isDone ?? false, date: task?.createdAt ?? date)
         
         cell.toggleCompletion = { [weak self] in
             guard let self = self else { return }

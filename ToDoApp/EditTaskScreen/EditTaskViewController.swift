@@ -150,21 +150,6 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
         }
     }
     
-    func makeDateFromString(from dateString: String) -> Date? {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter.date(from: dateString)
-    }
-    
-    func makeStringFromDate(from date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.string(from: date)
-        formatter.locale = Locale(identifier: "en_US_POSIX")
-        return formatter.string(from: date)
-    }
-    
-    
     @objc private func donePressed() {
         let formatter = DateFormatter()
         formatter.dateFormat = "dd/MM/yyyy"
@@ -176,7 +161,7 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
     
     @objc private func backTapped() {
         let dateString = dateTextField.text ?? getTodayDateString()
-        let date = makeDateFromString(from: dateString) ?? Date()
+        let date = makeDateFromString(from: dateString) ?? Date() 
         
         presenter?.saveTaskChanges(
             title: titleTextView.text,

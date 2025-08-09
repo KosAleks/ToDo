@@ -37,6 +37,8 @@
 		238F13822E44EF6B004E47D1 /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238F13812E44EF6B004E47D1 /* CreateTaskViewController.swift */; };
 		23A374B62E471B6400C1F910 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 23A374B52E471B6400C1F910 /* ProgressHUD */; };
 		23A374B82E471BA400C1F910 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B72E471BA400C1F910 /* ProgressHUD.swift */; };
+		23A374BA2E4728E000C1F910 /* DateFromStringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */; };
+		23A374BC2E47291200C1F910 /* StringFromDateMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374BB2E47291200C1F910 /* StringFromDateMaker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +93,8 @@
 		238F13812E44EF6B004E47D1 /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		2391408D2E463AE2002445B0 /* TaskModelNew.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelNew.xcdatamodel; sourceTree = "<group>"; };
 		23A374B72E471BA400C1F910 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
+		23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFromStringMaker.swift; sourceTree = "<group>"; };
+		23A374BB2E47291200C1F910 /* StringFromDateMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFromDateMaker.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,6 +238,8 @@
 				238B4D122E44C03F002B7B42 /* WordChancher.swift */,
 				238B4D162E44CF80002B7B42 /* TodayDate.swift */,
 				23A374B72E471BA400C1F910 /* ProgressHUD.swift */,
+				23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */,
+				23A374BB2E47291200C1F910 /* StringFromDateMaker.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -383,6 +389,7 @@
 				2310D1652E3C4F83000A31BD /* ToDoTableViewCell.swift in Sources */,
 				23620C642E38DCBF006B4D60 /* SceneDelegate.swift in Sources */,
 				238B4D0E2E44A1DF002B7B42 /* EditTaskViewController.swift in Sources */,
+				23A374BA2E4728E000C1F910 /* DateFromStringMaker.swift in Sources */,
 				238B4D172E44CF80002B7B42 /* TodayDate.swift in Sources */,
 				2378DDB02E41D556001C462E /* TaskEntity+CoreDataClass.swift in Sources */,
 				23620C952E38DE9F006B4D60 /* ToDoConfigurator.swift in Sources */,
@@ -395,6 +402,7 @@
 				234012E12E406EA300305D9B /* ToDoService.swift in Sources */,
 				235F5CAB2E3F845700834C15 /* ToDoInteractor.swift in Sources */,
 				2378DDB42E41DAFD001C462E /* Task.swift in Sources */,
+				23A374BC2E47291200C1F910 /* StringFromDateMaker.swift in Sources */,
 				23620C6C2E38DCBF006B4D60 /* ToDoApp.xcdatamodeld in Sources */,
 				238F13822E44EF6B004E47D1 /* CreateTaskViewController.swift in Sources */,
 			);
