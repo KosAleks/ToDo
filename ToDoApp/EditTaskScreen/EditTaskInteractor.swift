@@ -28,9 +28,9 @@ final class EditTaskInteractor: EditTaskInteractorProtocol {
                 task.title = title
                 task.todo = todo
                 task.createdAt = date 
-                
                 try context.save()
                 print("Task updated")
+                
             } else {
                 print("Task not found")
             }

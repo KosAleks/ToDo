@@ -28,7 +28,6 @@
 		2378DDB12E41D556001C462E /* TaskEntity+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */; };
 		2378DDB42E41DAFD001C462E /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDB32E41DAFD001C462E /* Task.swift */; };
 		2378DDBD2E437FA0001C462E /* ToDoRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2378DDBC2E437FA0001C462E /* ToDoRouter.swift */; };
-		237B69422E450901008B6545 /* EditTaskRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 237B69412E450901008B6545 /* EditTaskRouter.swift */; };
 		238B4D0E2E44A1DF002B7B42 /* EditTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D0D2E44A1DF002B7B42 /* EditTaskViewController.swift */; };
 		238B4D102E44B6A4002B7B42 /* EditTaskPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D0F2E44B6A4002B7B42 /* EditTaskPresenter.swift */; };
 		238B4D132E44C03F002B7B42 /* WordChancher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D122E44C03F002B7B42 /* WordChancher.swift */; };
@@ -39,6 +38,8 @@
 		23A374B82E471BA400C1F910 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B72E471BA400C1F910 /* ProgressHUD.swift */; };
 		23A374BA2E4728E000C1F910 /* DateFromStringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */; };
 		23A374BC2E47291200C1F910 /* StringFromDateMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374BB2E47291200C1F910 /* StringFromDateMaker.swift */; };
+		23B145122E48810D00865812 /* ToDoRouterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B145112E48810D00865812 /* ToDoRouterTests.swift */; };
+		23B145142E48829300865812 /* ToDoViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B145132E48829300865812 /* ToDoViewControllerTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,7 +85,6 @@
 		2378DDAF2E41D556001C462E /* TaskEntity+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "TaskEntity+CoreDataProperties.swift"; path = "ToDoApp/ToDoModels/TaskEntity+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		2378DDB32E41DAFD001C462E /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
 		2378DDBC2E437FA0001C462E /* ToDoRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRouter.swift; sourceTree = "<group>"; };
-		237B69412E450901008B6545 /* EditTaskRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskRouter.swift; sourceTree = "<group>"; };
 		238B4D0D2E44A1DF002B7B42 /* EditTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskViewController.swift; sourceTree = "<group>"; };
 		238B4D0F2E44B6A4002B7B42 /* EditTaskPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskPresenter.swift; sourceTree = "<group>"; };
 		238B4D122E44C03F002B7B42 /* WordChancher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordChancher.swift; sourceTree = "<group>"; };
@@ -95,6 +95,8 @@
 		23A374B72E471BA400C1F910 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFromStringMaker.swift; sourceTree = "<group>"; };
 		23A374BB2E47291200C1F910 /* StringFromDateMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFromDateMaker.swift; sourceTree = "<group>"; };
+		23B145112E48810D00865812 /* ToDoRouterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoRouterTests.swift; sourceTree = "<group>"; };
+		23B145132E48829300865812 /* ToDoViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToDoViewControllerTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,8 @@
 			children = (
 				23620C7B2E38DCC4006B4D60 /* ToDoInteractorTests.swift */,
 				23326CF02E467E97001BB014 /* ToDoPresenterTests.swift */,
+				23B145112E48810D00865812 /* ToDoRouterTests.swift */,
+				23B145132E48829300865812 /* ToDoViewControllerTests.swift */,
 			);
 			path = ToDoAppTests;
 			sourceTree = "<group>";
@@ -227,7 +231,6 @@
 				238B4D0D2E44A1DF002B7B42 /* EditTaskViewController.swift */,
 				238B4D0F2E44B6A4002B7B42 /* EditTaskPresenter.swift */,
 				238B4D142E44CC46002B7B42 /* EditTaskInteractor.swift */,
-				237B69412E450901008B6545 /* EditTaskRouter.swift */,
 			);
 			path = EditTaskScreen;
 			sourceTree = "<group>";
@@ -396,7 +399,6 @@
 				238B4D152E44CC46002B7B42 /* EditTaskInteractor.swift in Sources */,
 				238B4D102E44B6A4002B7B42 /* EditTaskPresenter.swift in Sources */,
 				235F5CAD2E3F885900834C15 /* ToDoDTO.swift in Sources */,
-				237B69422E450901008B6545 /* EditTaskRouter.swift in Sources */,
 				23396A182E3B5FA40011C343 /* ToDoPresenter.swift in Sources */,
 				23A374B82E471BA400C1F910 /* ProgressHUD.swift in Sources */,
 				234012E12E406EA300305D9B /* ToDoService.swift in Sources */,
@@ -412,7 +414,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23B145142E48829300865812 /* ToDoViewControllerTests.swift in Sources */,
 				23326CF12E467E97001BB014 /* ToDoPresenterTests.swift in Sources */,
+				23B145122E48810D00865812 /* ToDoRouterTests.swift in Sources */,
 				23620C7C2E38DCC4006B4D60 /* ToDoInteractorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

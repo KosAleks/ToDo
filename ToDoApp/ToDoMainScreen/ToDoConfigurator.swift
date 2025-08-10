@@ -9,7 +9,6 @@ import Foundation
 import CoreData
 
 protocol ToDoConfiguratorProtocol: AnyObject {
-    
     func configue(whith viewController: ToDoViewController)
 }
 

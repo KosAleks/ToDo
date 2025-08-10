@@ -15,7 +15,7 @@ protocol ToDoViewProtocol: AnyObject {
 
 class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
     var toDoPresenter: ToDoPresenterProtocol?
-    private var searchController = UISearchController()
+    var searchController = UISearchController()
     private var tasks: [Task] = []
     private var progressView: UIProgressView!
     private var progressTimer: Timer?
@@ -47,6 +47,14 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         return button
     }()
     
+    var isFiltering: Bool {
+        searchController.isActive && !(searchController.searchBar.text?.isEmpty ?? true)
+    }
+    
+    var isSearching: Bool {
+        return !(searchController.searchBar.text?.isEmpty ?? true)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .black
@@ -56,6 +64,8 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         toDoTableView.delegate = self
         toDoTableView.dataSource = self
         toDoTableView.register(ToDoTableViewCell.self, forCellReuseIdentifier: ToDoTableViewCell.reuseIdentifier)
+        toDoTableView.tableHeaderView = UIView(
+            frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: 1))
         setupSearchController()
         setupToolbar()
         addNewTodoButton.addTarget(self, action: #selector(addNewTodo), for: .touchUpInside)
@@ -108,14 +118,35 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
         navigationItem.hidesSearchBarWhenScrolling = false
         definesPresentationContext = true
         searchController.searchBar.tintColor = .white
+        searchController.searchBar.searchTextField.textColor = .white
         searchController.searchBar.searchTextField.backgroundColor = UIColor(named: "darkGrayColor")
         searchController.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
             string: "Search",
             attributes: [
                 .foregroundColor: UIColor.white,
                 .font: UIFont.systemFont(ofSize: 17)
-            ])
-        searchController.searchBar.backgroundColor = .black
+            ]
+        )
+        if let textField = searchController.searchBar.value(forKey: "searchField") as? UITextField {
+            if let leftView = textField.leftView as? UIImageView {
+                leftView.image = leftView.image?.withRenderingMode(.alwaysTemplate)
+                leftView.tintColor = .white
+            }
+            let micButton = UIButton(type: .system)
+            micButton.setImage(UIImage(named: "micIcon"), for: .normal)
+            micButton.tintColor = .white
+            micButton.frame = CGRect(
+                x: textField.bounds.width - 36,
+                y: (textField.bounds.height - 20) / 2,
+                width: 20,
+                height: 20
+            )
+            micButton.autoresizingMask = [.flexibleLeftMargin, .flexibleTopMargin, .flexibleBottomMargin]
+            micButton.addTarget(self, action: #selector(micButtonTapped), for: .touchUpInside)
+            textField.addSubview(micButton)
+            textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: textField.bounds.height))
+            textField.rightViewMode = .always
+        }
     }
     
     func createToDoTableView() {
@@ -136,15 +167,15 @@ class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegat
     
     func updateSearchResults(for searchController: UISearchController) {
         let text = searchController.searchBar.text ?? ""
-        toDoPresenter?.didUpdateSearchText(text)
-    }
-    
-    var isFiltering: Bool {
-        searchController.isActive && !(searchController.searchBar.text?.isEmpty ?? true)
+        toDoPresenter?.toDoInteractor.searchTasks(query: text)
     }
     
     @objc private func addNewTodo() {
         toDoPresenter?.toDoRouter.showCreateNewTaskScreen(from: self)
+    }
+    
+    @objc private func micButtonTapped() {
+        print("mic button tapped")
     }
 }
 
@@ -174,7 +205,7 @@ extension ToDoViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         } else {
             cell.separatorInset = .zero
         }
@@ -199,17 +230,9 @@ extension ToDoViewController {
             return UIMenu(title: "", children: [edit, lock, delete])
         }
     }
-    
-    func reloadTasks() {
-        toDoPresenter?.configueView()
-        displayTasks(tasks)
-        updateTaskCount()
-    }
-    
+
     func editTask(task: Task) {
-        toDoPresenter?.toDoRouter.showEditTaskScreen(from: self, task: task) { [weak self] in
-            self?.reloadTasks()
-        }
+        toDoPresenter?.didSelectTaskForEditing(task)
     }
     
     func shareTask(task: Task) {

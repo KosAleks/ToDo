@@ -9,7 +9,8 @@ import Foundation
 import UIKit
 
 protocol EditTaskViewProtocol: AnyObject {
-    
+    func fillData()
+    func showError(_ message: String)
 }
 final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
     var onTaskUpdated: (() -> Void)?
@@ -75,12 +76,20 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
-    private func fillData() {
+    func fillData() {
         guard let task = task else { return }
-        let todayDate = getTodayDateString()
-        titleTextView.text = task.description
-        descriptionTextView.text = task.description
-        dateTextField.text = todayDate
+        titleTextView.text = task.title ?? task.description ?? ""
+        descriptionTextView.text = task.description ?? ""
+        if let createdAt = task.createdAt {
+            let formatedDate = makeStringFromDate(from: createdAt)
+            dateTextField.text = formatedDate
+            datePicker.date = createdAt
+        } else {
+            let today = Date()
+            let formatedDate = makeStringFromDate(from: today)
+            dateTextField.text = formatedDate
+            datePicker.date = today
+        }
     }
     
     private func setupLayout() {
@@ -117,7 +126,6 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
         toolbar.tintColor = .gray
         let doneButton = UIBarButtonItem(title: "Готово", style: .done, target: self, action: #selector(donePressed))
         let space = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-        
         toolbar.setItems([space, doneButton], animated: false)
         dateTextField.inputView = datePicker
         dateTextField.inputAccessoryView = toolbar
@@ -140,7 +148,6 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
                 imageView.heightAnchor.constraint(equalToConstant: 22)
             ])
         }
-        
         if let titleLabel = backButton.titleLabel {
             titleLabel.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
@@ -151,18 +158,14 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
     }
     
     @objc private func donePressed() {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM/yyyy"
-        formatter.locale = Locale(identifier: "ru_RU")
-        let selectedDate = formatter.string(from: datePicker.date)
+        let selectedDate = makeStringFromDate(from: datePicker.date)
         dateTextField.text = selectedDate
         view.endEditing(true)
     }
     
     @objc private func backTapped() {
         let dateString = dateTextField.text ?? getTodayDateString()
-        let date = makeDateFromString(from: dateString) ?? Date() 
-        
+        let date = makeDateFromString(from: dateString) ?? Date()
         presenter?.saveTaskChanges(
             title: titleTextView.text,
             id: Int32(task?.id ?? 0),
@@ -172,5 +175,11 @@ final class EditTaskViewController: UIViewController, EditTaskViewProtocol {
             self.onTaskUpdated?()
             self.navigationController?.popViewController(animated: true)
         }
+    }
+    
+    func showError(_ message: String) {
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "ОК", style: .default, handler: nil))
+        present(alert, animated: true, completion: nil)
     }
 }

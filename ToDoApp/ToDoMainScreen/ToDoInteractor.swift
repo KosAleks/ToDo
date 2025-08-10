@@ -9,13 +9,13 @@ import Foundation
 import CoreData
 
 protocol ToDoInteractorProtocol: AnyObject {
+    var filteredTasks: [Task] {get}
+    var tasks: [Task] {get}
     func fetchTodos()
     func updateTask(_ task: Task, at index: Int)
     func deleteTask(task: Task)
-    var filteredTasks: [Task] { get }
-    var tasks: [Task] {get}
     func filterTasks(with query: String)
-    func addNewTask(_ task: Task)
+    func searchTasks(query: String)
 }
 
 protocol TodoInteractorOutPutProtocol: AnyObject {
@@ -24,8 +24,8 @@ protocol TodoInteractorOutPutProtocol: AnyObject {
 
 class ToDoInteractor: ToDoInteractorProtocol {
     weak var toDoPresenter: TodoInteractorOutPutProtocol?
-    var toDoService: TodoServiceProtocol
     let persistentContainer: NSPersistentContainer
+    var toDoService: TodoServiceProtocol
     var tasks: [Task] = []
     var filteredTasks: [Task] = []
     
@@ -130,11 +130,9 @@ class ToDoInteractor: ToDoInteractorProtocol {
         guard tasks.indices.contains(index) else { return }
         tasks[index] = task
         filteredTasks = tasks
-        
         persistentContainer.performBackgroundTask { context in
             let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %d", task.id)
-            
             do {
                 if let entityToUpdate = try context.fetch(fetchRequest).first {
                     entityToUpdate.completed = task.isDone
@@ -145,7 +143,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
             } catch {
                 print("Ошибка обновления задачи в Core Data: \(error)")
             }
-            
             DispatchQueue.main.async {
                 self.toDoPresenter?.didFetchTasks(self.filteredTasks)
             }
@@ -155,11 +152,9 @@ class ToDoInteractor: ToDoInteractorProtocol {
     func deleteTask(task: Task) {
         filteredTasks.removeAll { $0.id == task.id }
         tasks.removeAll { $0.id == task.id }
-        
         persistentContainer.performBackgroundTask { context in
             let fetchRequest: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
             fetchRequest.predicate = NSPredicate(format: "id == %d", task.id)
-            
             do {
                 if let entityToDelete = try context.fetch(fetchRequest).first {
                     context.delete(entityToDelete)
@@ -168,7 +163,6 @@ class ToDoInteractor: ToDoInteractorProtocol {
             } catch {
                 print("Ошибка при удалении задачи из Core Data: \(error)")
             }
-            
             DispatchQueue.main.async {
                 self.toDoPresenter?.didFetchTasks(self.filteredTasks)
             }
@@ -178,22 +172,42 @@ class ToDoInteractor: ToDoInteractorProtocol {
     func addNewTask(_ task: Task) {
         tasks.insert(task, at: 0)
         filteredTasks = tasks
-        
         persistentContainer.performBackgroundTask { context in
             let entity = TaskEntity(context: context)
             entity.id = Int32(task.id)
             entity.todo = task.description
             entity.completed = task.isDone
             entity.createdAt = task.createdAt
-            
             do {
                 try context.save()
             } catch {
                 print("Ошибка при добавлении задачи в Core Data: \(error)")
             }
-            
             DispatchQueue.main.async {
                 self.toDoPresenter?.didFetchTasks(self.filteredTasks)
+            }
+        }
+    }
+    
+    func searchTasks(query: String) {
+        let request: NSFetchRequest<TaskEntity> = TaskEntity.fetchRequest()
+
+        if !query.isEmpty {
+            request.predicate = NSPredicate(format: "todo CONTAINS[cd] %@ OR title CONTAINS[cd] %@", query, query)
+        }
+        request.sortDescriptors = [NSSortDescriptor(key: "createdAt", ascending: false)]
+        do {
+            let taskEntities = try persistentContainer.viewContext.fetch(request)
+            let tasks = taskEntities.map { Task(from: $0) }
+            filteredTasks = tasks
+            DispatchQueue.main.async {
+                self.toDoPresenter?.didFetchTasks(tasks)
+            }
+        } catch {
+            print("Ошибка поиска задач:", error)
+            DispatchQueue.main.async {
+                self.filteredTasks = []
+                self.toDoPresenter?.didFetchTasks([])
             }
         }
     }

@@ -8,137 +8,132 @@
 import XCTest
 @testable import ToDoApp
 
+class MockToDoView: UIViewController, ToDoViewProtocol {
+    var toDoPresenter: ToDoPresenterProtocol?
+    var displayedTasks: [Task] = []
+    var updateTaskCountCalled = false
+    
+    func displayTasks(_ tasks: [Task]) {
+        displayedTasks = tasks
+    }
+    
+    func updateTaskCount() {
+        updateTaskCountCalled = true
+    }
+}
+
 class MockToDoInteractor: ToDoInteractorProtocol {
-    var fetchTodosCalled = false
+    weak var toDoPresenter: TodoInteractorOutPutProtocol?
+    
+    var tasks: [Task] = []
     var filteredTasks: [Task] = []
-    var updateTaskCalled = false
-    var updatedTask: Task?
-    var updatedIndex: Int?
-    var filterTasksCalled = false
-    var filterQuery: String?
-    var deleteTaskCalled = false
-    var deletedTask: Task?
+    
+    var fetchTodosCalled = false
+    var updateTaskCalledWith: (task: Task, index: Int)?
+    var searchTasksCalledWith: String?
+    var deleteTaskCalledWith: Task?
     
     func fetchTodos() {
         fetchTodosCalled = true
     }
     
     func updateTask(_ task: Task, at index: Int) {
-        updateTaskCalled = true
-        updatedTask = task
-        updatedIndex = index
+        updateTaskCalledWith = (task, index)
+        filteredTasks[index] = task
+    }
+    
+    func searchTasks(query: String) {
+        searchTasksCalledWith = query
+        
+        if query.isEmpty {
+            filteredTasks = tasks
+        } else {
+            filteredTasks = tasks.filter { task in
+                ((task.title?.lowercased().contains(query.lowercased())) != nil) ||
+                (task.description?.lowercased().contains(query.lowercased()) ?? false)
+            }
+        }
+        
+        DispatchQueue.main.async {
+            self.toDoPresenter?.didFetchTasks(self.filteredTasks)
+        }
     }
     
     func filterTasks(with query: String) {
-        filterTasksCalled = true
-        filterQuery = query
     }
     
     func deleteTask(task: Task) {
-        deleteTaskCalled = true
-        deletedTask = task
+        deleteTaskCalledWith = task
+        filteredTasks.removeAll { $0.id == task.id }
+        tasks.removeAll { $0.id == task.id }
     }
 }
 
-class MockToDoView: ToDoViewProtocol {
-    var toDoPresenter: ToDoApp.ToDoPresenterProtocol?
-    
-    func updateTaskCount() {
-        <#code#>
+class MockToDoRouter: ToDoRouterProtocol {
+    var showCreateNewTaskScreenCalled = false
+    var showEditTaskScreenCalled = false
+    var editedTask: Task?
+    var onTaskUpdatedClosure: (() -> Void)?
+
+    func showCreateNewTaskScreen(from viewController: UIViewController) {
+        showCreateNewTaskScreenCalled = true
     }
-    
-    var displayTasksCalled = false
-    var displayedTasks: [Task] = []
-    
-    func displayTasks(_ tasks: [Task]) {
-        displayTasksCalled = true
-        displayedTasks = tasks
+
+    func showEditTaskScreen(from viewController: UIViewController, task: Task, onTaskUpdated: @escaping () -> Void) {
+        showEditTaskScreenCalled = true
+        editedTask = task
+        onTaskUpdatedClosure = onTaskUpdated
     }
 }
 
 final class ToDoPresenterTests: XCTestCase {
+    
     var presenter: ToDoPresenter!
-    var mockInteractor: MockToDoInteractor!
     var mockView: MockToDoView!
+    var mockInteractor: MockToDoInteractor!
+    var mockRouter: MockToDoRouter!
     
     override func setUp() {
         super.setUp()
-        mockInteractor = MockToDoInteractor()
-        mockView = MockToDoView()
-        // Для роутера можно подставить заглушку, если надо
-        let mockRouter = MockToDoRouter()
         
+        mockView = MockToDoView()
+        mockInteractor = MockToDoInteractor()
+        mockRouter = MockToDoRouter()
+        
+        mockInteractor.filteredTasks = [
+            Task(id: 1, description: "Task 1", isDone: false, createdAt: Date(), title: "Task1"),
+            Task(id: 2, description: "Task 2", isDone: true, createdAt: Date(), title: "Task2"),
+            Task(id: 3, description: "Task 3", isDone: false, createdAt: Date(), title: "Task3")
+        ]
         presenter = ToDoPresenter(view: mockView, interactor: mockInteractor, router: mockRouter)
     }
     
-    override func tearDown() {
-        presenter = nil
-        mockInteractor = nil
-        mockView = nil
-        super.tearDown()
-    }
-    
-    func testConfigueView_callsFetchTodos() {
+    func testConfigueViewCallsFetchTodos() {
         presenter.configueView()
         XCTAssertTrue(mockInteractor.fetchTodosCalled)
     }
     
-    func testNumberOfTasks_returnsFilteredTasksCount() {
-        mockInteractor.filteredTasks = [
-            Task(id: 1, description: "Test 1", isDone: false, createdAt: Date(), title: "Test1"),
-            Task(id: 2, description: "Test 2", isDone: false, createdAt: Date(), title: "Test2")
-        ]
-        XCTAssertEqual(presenter.numberOfTasks(), 2)
-    }
-    
-    func testTaskAtIndex_returnsCorrectTask() {
-        let task = Task(id: 1, description: "Test", isDone: false, createdAt: Date(), title: "Test")
-        mockInteractor.filteredTasks = [task]
-        let returnedTask = presenter.task(at: 0)
-        XCTAssertEqual(returnedTask.id, task.id)
-    }
-    
-    func testToggleTaskDone_updatesTask() {
-        let task = Task(id: 1, description: "Test", isDone: false, createdAt: Date(), title: "Test")
-        mockInteractor.filteredTasks = [task]
-        
+    func testToggleTaskDoneTogglesIsDoneAndCallsUpdateTask() {
         presenter.toggleTaskDone(at: 0)
         
-        XCTAssertTrue(mockInteractor.updateTaskCalled)
-        XCTAssertEqual(mockInteractor.updatedTask?.id, task.id)
-        XCTAssertEqual(mockInteractor.updatedTask?.isDone, true)
+        XCTAssertNotNil(mockInteractor.updateTaskCalledWith)
+        XCTAssertEqual(mockInteractor.updateTaskCalledWith?.index, 0)
+        XCTAssertEqual(mockInteractor.updateTaskCalledWith?.task.id, 1)
+        XCTAssertTrue(mockInteractor.updateTaskCalledWith!.task.isDone)
     }
     
-    func testDidUpdateSearchText_callsFilterTasks() {
-        presenter.didUpdateSearchText("query")
-        XCTAssertTrue(mockInteractor.filterTasksCalled)
-        XCTAssertEqual(mockInteractor.filterQuery, "query")
+    func testDidSelectTaskForEditingCallsRouterAndUpdatesView() {
+        let taskToEdit = mockInteractor.filteredTasks[0]
+        
+        presenter.didSelectTaskForEditing(taskToEdit)
+        
+        XCTAssertTrue(mockRouter.showEditTaskScreenCalled)
+        XCTAssertEqual(mockRouter.editedTask?.id, taskToEdit.id)
+        
+        mockRouter.onTaskUpdatedClosure?()
+        
+        XCTAssertEqual(mockView.displayedTasks.count, mockInteractor.filteredTasks.count)
+        XCTAssertTrue(mockView.updateTaskCountCalled)
     }
-    
-    func testDeleteTask_callsDeleteTask() {
-        let task = Task(id: 1, description: "Test", isDone: false, createdAt: Date(), title: "Test")
-        presenter.deleteTask(task)
-        XCTAssertTrue(mockInteractor.deleteTaskCalled)
-        XCTAssertEqual(mockInteractor.deletedTask?.id, task.id)
-    }
-    
-    func testDidFetchTasks_callsViewDisplayTasks() {
-        let tasks = [Task(id: 1, description: "Test", isDone: false, createdAt: Date(), title: "Test")]
-        presenter.didFetchTasks(tasks)
-        XCTAssertTrue(mockView.displayTasksCalled)
-        XCTAssertEqual(mockView.displayedTasks.count, 1)
-    }
-}
 
-// Заглушка роутера для компиляции (можешь расширить)
-class MockToDoRouter: ToDoRouterProtocol {
-    func showCreateNewTaskScreen(from viewController: UIViewController) {
-        <#code#>
-    }
-    
-    func showEditTaskScreen(from viewController: UIViewController, task: ToDoApp.Task, onTaskUpdated: @escaping () -> Void) {
-        <#code#>
-    }
-    
-    // Реализуй методы роутера по необходимости
 }

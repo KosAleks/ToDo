@@ -7,21 +7,24 @@
 
 import Foundation
 import ProgressHUD
+import UIKit
 
 protocol ToDoPresenterProtocol: AnyObject {
+    var toDoInteractor: ToDoInteractorProtocol {get}
+    var toDoRouter: ToDoRouterProtocol {get}
     func configueView()
     func numberOfTasks() -> Int
     func task(at index: Int) -> Task
     func toggleTaskDone(at index: Int)
     func didUpdateSearchText(_ text: String)
     func deleteTask(_ task: Task)
-    var toDoRouter: ToDoRouterProtocol {get}
+    func didSelectTaskForEditing(_ task: Task)
 }
 
 class ToDoPresenter: ToDoPresenterProtocol {
     weak var view: ToDoViewProtocol?
     var toDoInteractor: ToDoInteractorProtocol
-    private var filteredTasks: [Task] = []
+    var filteredTasks: [Task] = []
     var toDoRouter: ToDoRouterProtocol
     
     required init(view: ToDoViewProtocol, interactor: ToDoInteractorProtocol, router: ToDoRouterProtocol) {
@@ -56,6 +59,15 @@ class ToDoPresenter: ToDoPresenterProtocol {
     
     func deleteTask(_ task: Task) {
         toDoInteractor.deleteTask(task: task)
+    }
+    
+    func didSelectTaskForEditing(_ task: Task) {
+        guard let view = view as? UIViewController else { return }
+        toDoRouter.showEditTaskScreen(from: view, task: task) { [weak self] in
+            self?.view?.displayTasks(self?.toDoInteractor.filteredTasks ?? [])
+            self?.configueView()
+            self?.view?.updateTaskCount()
+        }
     }
 }
 

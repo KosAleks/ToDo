@@ -29,15 +29,13 @@ final class EditTaskPresenter: EditTaskPresenterProtocol {
         completion: @escaping () -> Void
     ) {
         guard let title = title, !title.isEmpty else {
-            // view?.showError("Заголовок не может быть пустым")
+            view?.showError("Заголовок не может быть пустым")
             return
         }
-        
         guard let todo = todo, !todo.isEmpty else {
-            // view?.showError("Описание не может быть пустым")
+            view?.showError("Описание не может быть пустым")
             return
         }
-        
         interactor.saveTask(
             title: title,
             id: id,
@@ -45,6 +43,6 @@ final class EditTaskPresenter: EditTaskPresenterProtocol {
             date: date,
             completion: completion
         )
-    }   
+    }
 }
 
