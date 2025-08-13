@@ -13,7 +13,7 @@ protocol ToDoViewProtocol: AnyObject {
     func updateTaskCount()
 }
 
-class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
+final class ToDoViewController: UIViewController, ToDoViewProtocol, UITableViewDelegate, UISearchResultsUpdating {
     var toDoPresenter: ToDoPresenterProtocol?
     var searchController = UISearchController()
     private var tasks: [Task] = []

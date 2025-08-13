@@ -21,7 +21,7 @@ protocol ToDoPresenterProtocol: AnyObject {
     func didSelectTaskForEditing(_ task: Task)
 }
 
-class ToDoPresenter: ToDoPresenterProtocol {
+final class ToDoPresenter: ToDoPresenterProtocol {
     weak var view: ToDoViewProtocol?
     var toDoInteractor: ToDoInteractorProtocol
     var filteredTasks: [Task] = []

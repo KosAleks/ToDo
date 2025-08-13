@@ -33,7 +33,6 @@
 		238B4D132E44C03F002B7B42 /* WordChancher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D122E44C03F002B7B42 /* WordChancher.swift */; };
 		238B4D152E44CC46002B7B42 /* EditTaskInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D142E44CC46002B7B42 /* EditTaskInteractor.swift */; };
 		238B4D172E44CF80002B7B42 /* TodayDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238B4D162E44CF80002B7B42 /* TodayDate.swift */; };
-		238F13822E44EF6B004E47D1 /* CreateTaskViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238F13812E44EF6B004E47D1 /* CreateTaskViewController.swift */; };
 		23A374B62E471B6400C1F910 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 23A374B52E471B6400C1F910 /* ProgressHUD */; };
 		23A374B82E471BA400C1F910 /* ProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B72E471BA400C1F910 /* ProgressHUD.swift */; };
 		23A374BA2E4728E000C1F910 /* DateFromStringMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */; };
@@ -90,7 +89,6 @@
 		238B4D122E44C03F002B7B42 /* WordChancher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordChancher.swift; sourceTree = "<group>"; };
 		238B4D142E44CC46002B7B42 /* EditTaskInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTaskInteractor.swift; sourceTree = "<group>"; };
 		238B4D162E44CF80002B7B42 /* TodayDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayDate.swift; sourceTree = "<group>"; };
-		238F13812E44EF6B004E47D1 /* CreateTaskViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTaskViewController.swift; sourceTree = "<group>"; };
 		2391408D2E463AE2002445B0 /* TaskModelNew.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = TaskModelNew.xcdatamodel; sourceTree = "<group>"; };
 		23A374B72E471BA400C1F910 /* ProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressHUD.swift; sourceTree = "<group>"; };
 		23A374B92E4728E000C1F910 /* DateFromStringMaker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFromStringMaker.swift; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 				238B4D112E44C017002B7B42 /* Helpers */,
 				23620C962E38E084006B4D60 /* ToDoMainScreen */,
 				238B4D0C2E44A1C5002B7B42 /* EditTaskScreen */,
-				2378DDBE2E438048001C462E /* CreateNewTaskScreen */,
 				2378DDB22E41D56B001C462E /* ToDoModels */,
 				23620C612E38DCBF006B4D60 /* AppDelegate.swift */,
 				23620C632E38DCBF006B4D60 /* SceneDelegate.swift */,
@@ -215,14 +212,6 @@
 				2378DDB32E41DAFD001C462E /* Task.swift */,
 			);
 			path = ToDoModels;
-			sourceTree = "<group>";
-		};
-		2378DDBE2E438048001C462E /* CreateNewTaskScreen */ = {
-			isa = PBXGroup;
-			children = (
-				238F13812E44EF6B004E47D1 /* CreateTaskViewController.swift */,
-			);
-			path = CreateNewTaskScreen;
 			sourceTree = "<group>";
 		};
 		238B4D0C2E44A1C5002B7B42 /* EditTaskScreen */ = {
@@ -406,7 +395,6 @@
 				2378DDB42E41DAFD001C462E /* Task.swift in Sources */,
 				23A374BC2E47291200C1F910 /* StringFromDateMaker.swift in Sources */,
 				23620C6C2E38DCBF006B4D60 /* ToDoApp.xcdatamodeld in Sources */,
-				238F13822E44EF6B004E47D1 /* CreateTaskViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

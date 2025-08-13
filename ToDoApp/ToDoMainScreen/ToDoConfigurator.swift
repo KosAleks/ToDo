@@ -12,7 +12,7 @@ protocol ToDoConfiguratorProtocol: AnyObject {
     func configue(whith viewController: ToDoViewController)
 }
 
-class ToDoConfigurator: ToDoConfiguratorProtocol {
+final class ToDoConfigurator: ToDoConfiguratorProtocol {
     private let persistentContainer: NSPersistentContainer
     
     init(persistentContainer: NSPersistentContainer) {

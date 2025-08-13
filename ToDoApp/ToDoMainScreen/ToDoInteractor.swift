@@ -22,7 +22,7 @@ protocol TodoInteractorOutPutProtocol: AnyObject {
     func didFetchTasks(_ tasks: [Task])
 }
 
-class ToDoInteractor: ToDoInteractorProtocol {
+final class ToDoInteractor: ToDoInteractorProtocol {
     weak var toDoPresenter: TodoInteractorOutPutProtocol?
     let persistentContainer: NSPersistentContainer
     var toDoService: TodoServiceProtocol

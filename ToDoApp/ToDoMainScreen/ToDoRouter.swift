@@ -14,7 +14,7 @@ protocol ToDoRouterProtocol: AnyObject {
     func showEditTaskScreen(from viewController: UIViewController, task: Task, onTaskUpdated: @escaping () -> Void)
 }
 
-class ToDoRouter: ToDoRouterProtocol {
+final class ToDoRouter: ToDoRouterProtocol {
     weak var viewController: UIViewController?
     func getContext() -> NSManagedObjectContext {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
